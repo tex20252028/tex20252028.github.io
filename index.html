@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grupos Funcionales — FTIR de polímeros plásticos</title>
+<meta name="description" content="Recurso adicional: Algoritmo Genético para la Optimización de Flujos de Preprocesamiento y Clasificación de Espectros FTIR de Polímeros Plásticos." />
+<meta name="author" content="Octavio Rosales Martínez" />
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --text: #1f2328;
+    --text-muted: #57606a;
+    --border: #e5e7eb;
+    --accent: #1f4e79;
+    --accent-soft: #eef3f9;
+    --max-width: 820px;
+    --font-serif: "Charter", "Iowan Old Style", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --border: #30363d;
+      --accent: #6ea8dd;
+      --accent-soft: #1a2733;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ---------- Header ---------- */
+
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  header.page-header .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  header.page-header .institution {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 650;
+    letter-spacing: -0.005em;
+    color: var(--text);
+    margin: 0 0 0.85rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header.page-header .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1rem;
+  }
+
+  header.page-header h1 {
+    font-family: var(--font-sans);
+    font-size: clamp(2rem, 4.5vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0 0 1.25rem;
+    color: var(--text);
+  }
+
+  header.page-header .poster-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0 0 2rem;
+    max-width: 62ch;
+    text-wrap: balance;
+  }
+
+  header.page-header .author-line {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-sans);
+  }
+
+  header.page-header .author-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+
+  /* ---------- Main ---------- */
+
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2.75rem 1.5rem 4rem;
+  }
+
+  section { margin-bottom: 3rem; }
+
+  h2 {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p { margin: 0 0 1.1rem; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+    display: inline-block;
+    padding: 0.15rem 0;
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  /* ---------- Figures ---------- */
+
+  figure {
+    margin: 1.75rem 0;
+    padding: 0;
+  }
+
+  figure img,
+  figure video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  figcaption {
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* ---------- Lists ---------- */
+
+  ul {
+    padding-left: 1.25rem;
+    margin: 0 0 1.1rem;
+  }
+
+  ul li { margin-bottom: 0.55rem; }
+
+  /* ---------- References ---------- */
+
+  .references {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .references li {
+    font-size: 0.94rem;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
+  }
+
+  .references a {
+    word-break: break-word;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 2.25rem 1.5rem 3rem;
+  }
+
+  footer .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  footer strong { color: var(--text); font-weight: 600; }
+
+  /* ---------- Responsive ---------- */
+
+  @media (min-width: 900px) and (max-width: 1200px) {
+    :root { --max-width: 900px; }
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    header.page-header { padding: 2.75rem 1.25rem 2.25rem; }
+    main { padding: 2rem 1.25rem 3rem; }
+    section { margin-bottom: 2.25rem; }
+    .references li { padding-left: 1rem; text-indent: -1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="inner">
+    <p class="institution">Centro Universitario UAEM Tianguistenco</p>
+    <p class="eyebrow">Recurso adicional</p>
+    <h1>Grupos Funcionales</h1>
+    <p class="poster-title">
+      Algoritmo Genético para la Optimización de Flujos de Preprocesamiento y
+      Clasificación de Espectros FTIR de Polímeros Plásticos
+    </p>
+    <div class="author-line">
+      <span class="author-name">Octavio Rosales Martínez</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <p>
+      Se cuenta con un conjunto de datos de espectros FTIR de plásticos, en resoluciones de
+      8 y 4 cm<sup>-1</sup>, para polietileno de alta densidad (HDPE), polietileno de baja
+      densidad (LDPE), tereftalato de polietileno (PET), polipropileno (PP), poliestireno (PS)
+      y policloruro de vinilo (PVC) (Villegas-Camacho et al., 2024). El conjunto contiene
+      500 muestras por cada tipo de plástico en cada resolución.
+    </p>
+    <p>
+      Los espectros con resolución de 8 cm<sup>-1</sup> tienen 1,869 puntos o números de onda,
+      mientras que los de 4 cm<sup>-1</sup> tienen 3,736. En la siguiente figura se muestra la
+      primera muestra de PET en su estado crudo en ambas resoluciones.
+    </p>
+
+    <figure>
+      <img src="./media/4.1 - poster_2026B_comparacion_resolucion.png"
+           alt="Muestra de PET en estado crudo en ambas resoluciones" loading="lazy" />
+      <figcaption>
+        Muestra de PET en estado crudo comparada entre las resoluciones de 8 y 4 cm<sup>-1</sup>.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Selección de regiones grupos funcionales relevantes</h2>
+    <p>
+      Se exploró un esquema de búsqueda basado en un algoritmo genético para identificar
+      combinaciones de números de onda evaluadas con distintos clasificadores supervisados:
+      Extremely Randomized Trees (ET), K-Nearest Neighbors (KNN), Linear Discriminant
+      Analysis (LDA), Random Forest (RF) y Support Vector Classification (SVC). La
+      frecuencia acumulada de dichas combinaciones resalta regiones del espectro cuya
+      información química resulta útil para la identificación y clasificación de los
+      plásticos, como se ilustra a continuación.
+    </p>
+
+    <figure>
+      <img src="./media/4.2 - poster_2026B_espectros_importancia.png"
+           alt="Regiones espectrales relevantes para la clasificación de plásticos"
+           loading="lazy" />
+      <figcaption>
+        Regiones espectrales cuya información química resulta relevante para la
+        identificación y clasificación de los plásticos, según la frecuencia acumulada
+        de las combinaciones seleccionadas por el algoritmo genético.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Flujo de preprocesamiento</h2>
+    <p>
+      Se integró un repositorio de operadores de transformación de señal que, en conjunto,
+      conforman un flujo de preprocesamiento. El algoritmo genético explora
+      combinaciones de estos operadores para mejorar el desempeño de clasificación. Entre
+      los operadores considerados destacan, de manera ilustrativa, el filtro de
+      Savitzky-Golay (Zimmermann &amp; Kohler, 2013):
+    </p>
+
+    <figure>
+      <video controls autoplay loop muted playsinline
+             src="./media/2do - Savitzky Golay Multimedia1.mp4">
+        Tu navegador no soporta la etiqueta de video HTML5.
+      </video>
+      <figcaption>
+        Animación del filtro de Savitzky-Golay.
+      </figcaption>
+    </figure>
+
+    <p>y un operador de reconstrucción de señal, inspirado en estrategias de interpolación
+       empleadas para el tratamiento de datos incompletos (Amala Deepa V. &amp; T. Lucia
+       Agnes Beena, 2025):</p>
+
+    <figure>
+      <img src="./media/3ro - Reconstrucción Imagen11.png"
+           alt="Reconstrucción de la señal" loading="lazy" />
+      <figcaption>
+        Reconstrucción de la señal tras la aplicación del operador correspondiente.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Estado actual y validación</h2>
+    <p>
+      Actualmente el trabajo se encuentra en una etapa de validación experimental, orientada
+      a verificar la consistencia del flujo de preprocesamiento entre ambas resoluciones
+      espectrales, así como su concordancia frente a los resultados previamente reportados
+      en la literatura. Como parte de esta etapa se incorpora un componente de modelado
+      basado en aprendizaje profundo, cuyos detalles permanecen en desarrollo y serán
+      presentados en la publicación correspondiente.
+    </p>
+  </section>
+
+  <section>
+    <h2>Conclusiones</h2>
+    <ul>
+      <li>
+        La combinación de espectros FTIR en resoluciones de 8 y 4 cm<sup>-1</sup> con
+        clasificadores supervisados permite identificar regiones espectrales para la
+        discriminación entre HDPE, LDPE, PET, PP, PS y PVC.
+      </li>
+      <li>
+        El esquema de búsqueda evolutiva resultó útil para seleccionar combinaciones de
+        números de onda cuya frecuencia acumulada resalta información química discriminante,
+        lo que contribuye a reducir la dimensionalidad y a mejorar la interpretabilidad de
+        los espectros.
+      </li>
+      <li>
+        Los operadores de preprocesamiento explorados como el filtro de Savitzky-Golay y la
+        reconstrucción de señal mejoran la calidad de las señales y, potencialmente, el
+        desempeño de los modelos de clasificación.
+      </li>
+      <li>
+        La etapa actual de validación busca confirmar la consistencia del flujo de
+        preprocesamiento entre resoluciones y su concordancia con los resultados reportados
+        en la literatura.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Referencias</h2>
+    <ul class="references">
+      <li>
+        Amala Deepa V., &amp; T. Lucia Agnes Beena. (2025). Enhancing data imputation in
+        complex datasets using Lagrange polynomial interpolation and hot-deck fusion.
+        <em>The Scientific Temper</em>, <em>16</em>(02), 3727–3735.
+        <a href="https://doi.org/10.58414/SCIENTIFICTEMPER.2025.16.2.05"
+           target="_blank" rel="noopener">https://doi.org/10.58414/SCIENTIFICTEMPER.2025.16.2.05</a>
+      </li>
+      <li>
+        Villegas-Camacho, O., Alejo-Eleuterio, R., Francisco-Valencia, I.,
+        Granda-Gutiérrez, E., Martínez-Gallegos, S., &amp; Illescas, J. (2024).
+        FTIR-Plastics: A Fourier Transform Infrared Spectroscopy dataset for the six most
+        prevalent industrial plastic polymers. <em>Data in Brief</em>, <em>55</em>, 110612.
+        <a href="https://doi.org/10.1016/j.dib.2024.110612"
+           target="_blank" rel="noopener">https://doi.org/10.1016/j.dib.2024.110612</a>
+      </li>
+      <li>
+        Zimmermann, B., &amp; Kohler, A. (2013). Optimizing Savitzky–Golay parameters for
+        improving spectral resolution and quantification in infrared spectroscopy.
+        <em>Applied Spectroscopy</em>, <em>67</em>(8), 892–902.
+        <a href="https://doi.org/10.1366/12-06723"
+           target="_blank" rel="noopener">https://doi.org/10.1366/12-06723</a>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <p>
+      Esta página se comparte como recurso adicional de: 
+      <strong>«Algoritmo Genético para la Optimización de Flujos de Preprocesamiento y
+      Clasificación de Espectros FTIR de Polímeros Plásticos»</strong>.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
